@@ -1,0 +1,20 @@
+# Render blueprint for the calculator back end.
+# Docs: https://render.com/docs/blueprint-spec
+# After pushing this repository to GitHub, create a "Blueprint" (or a Web
+# Service pointing at this repo) and Render will provision everything.
+services:
+  - type: web
+    name: calculator-backend-832401126
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT app:app
+    envVars:
+      - key: DATABASE_PATH
+        value: /data/calculator.db
+      - key: CORS_ORIGINS
+        value: "*"
+    disk:
+      name: sqlite-data
+      mountPath: /data
+      sizeGB: 1
